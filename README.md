@@ -1,4 +1,5 @@
 Restaurant Operations Analysis
+
 PROJECT OVERVIEW
 This projectis designed to demonstrate the SQL skills and techniques used by data analyst to explore and analyze data for restaurant orders. This project involves setting up the restaurant database, perform exploratory data analysis(EDA) and answering specific business questions through SQL queries.  
 
@@ -16,4 +17,6 @@ THE OBJECTIVES:
 
 
 [RESTAURANT_ORDERS _SQL PROJECT.docx](https://github.com/user-attachments/files/18812005/RESTAURANT_ORDERS._SQL.PROJECT.docx)
-[create_restaurant_db.zip](https://github.com/user-attachments/files/18812012/create_restaurant_db.zip)
+
+The below folder has the SQL files for the SQL database creation,  Objective 1 SQL file, Objective 2 SQL file and Objective 3 SQL file.
+[create_restaurant_db (2).zip](https://github.com/user-attachments/files/18812144/create_restaurant_db.2.zip)
