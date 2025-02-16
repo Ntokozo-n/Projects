@@ -1,1 +1,163 @@
+Restaurant Operations Analysis
+PROJECT OVERVIEW
+This projectis designed to demonstrate the SQL skills and techniques used by data analyst to explore and analyze data for restaurant orders. This project involves setting up the restaurant database, perform exploratory data analysis(EDA) and answering specific business questions through SQL queries.  
+
+THE SITUATION:
+You have been hired as a Data Analyst for the Taste of the World Cafe, a restaurant that has diverse menu offerings and serves generous portions.
+
+THE ASSIGNMENT:
+The Taste of the world Cafe debuted a new menu at the start of the year.
+You have been asked to dig into the customer  data to see which menu items are doing well/ not well and what the top customers seem to like best.
+
+THE OBJECTIVES:
+1.	Explore the menu_items table to get an idea of what’s on the new menu.
+2.	Explore the order_details table to get an ideaof the data that has been collected.
+3.	Use both tables to understand how customers are reacting to the new menu.
+
+PROJECT STRUCTURE:
+
+Database Setup:
+-	Database Creation: The project starts by creating a database named restaurant_db
+-	LOOK AT BELOW LINK FOR DATABASE CREATION QUERY SCRIPT
+-	https://drive.google.com/file/d/1DUa-qXZ3N_CQDQSVIZP3oCHHTRwqOjcM/view?usp=drive_link
+
+
+
+Objective 1: Explore the menu_items table to get an idea of what’s on the new menu.
+USE restaurant_db;
+
+-- 1. View the menu_item table?.
+SELECT *
+FROM restaurant_db.menu_items;
+
+-- 2.Find the number of items on the menu?
+SELECT COUNT(*) as Count_items
+FROM restaurant_db.menu_items;
+
+-- 3.What are the least and most expensive items on the menu?
+SELECT MIN(price) AS Least_expensive,
+		MAX(price) AS Most_expensive
+FROM restaurant_db.menu_items;
+
+-- 4. How many Italian dishes are on the menu?
+SELECT COUNT(*) AS count_Italian_category
+FROM restaurant_db.menu_items
+WHERE category='Italian';
+
+-- 5.What are the least and most expensive Italian dishes on the menu?
+SELECT *
+FROM restaurant_db.menu_items
+WHERE category='Italian'
+ORDER BY price DESC;  -- Most expensive dishes
+
+SELECT *
+FROM restaurant_db.menu_items
+WHERE category='Italian'
+ORDER BY price ASC;     -- least expensive
+
+-- 6. How many dishes are in each category?
+SELECT category, 
+		COUNT(category) AS category_count
+ FROM restaurant_db.menu_items
+ GROUP BY category;
+ 
+ -- 7. What is the average dish pricce within each category?
+ SELECT category, 
+		AVG(price) AS avg_dishes_prices
+ FROM restaurant_db.menu_items
+ GROUP BY category
+ 
+Objective 2: Explore the order_details table to get an ideaof the data that has been collected.
+-- 1.View the order_details table.
+SELECT *
+FROM restaurant_db.order_details;
+
+-- 2.What is the date range of the table ?
+SELECT MIN(order_date) Min_Order_date,
+		MAX(order_date) AS Max_Order_date
+FROM restaurant_db.order_details;
+
+-- 3. How many orders were made within this date range ?
+SELECT COUNT(DISTINCT(order_id)) count_Order
+FROM restaurant_db.order_details;
+
+-- 4.How many times were ordered within this date range?
+SELECT COUNT(*) count_item_id
+FROM restaurant_db.order_details;
+
+-- 5. Which orders had the most number of items ?
+
+SELECT 	 order_id,
+		COUNT(item_id) AS no_of_items
+FROM restaurant_db.order_details
+GROUP BY order_id
+ORDER BY COUNT(item_id) DESC;
+
+-- 6. How many orders had more than 12  items ?
+ SELECT COUNT(*)
+ FROM (
+		 SELECT  order_id,
+				COUNT(item_id) AS no_of_items
+		FROM restaurant_db.order_details
+		GROUP BY order_id
+		HAVING COUNT(item_id)> 12
+ ) X;
+
+Objective 3: Use both tables to understand how customers are reacting to the new menu.
+-- 1. Combine the menu_items and order_details tables into a single table.
+SELECT *
+FROM restaurant_db.menu_items mt
+LEFT JOIN restaurant_db.order_details od
+ON mt.menu_item_id= od.item_id;
+
+-- 2.What were the least and most ordered items  ? what categories were they in?
+SELECT mt.item_name, mt.category,
+		COUNT(od.order_id) as No_of_ordered
+FROM restaurant_db.order_details od
+LEFT JOIN restaurant_db.menu_items mt
+ON mt.menu_item_id= od.item_id
+GROUP BY mt.item_name, mt.category
+ORDER BY COUNT(od.order_id) ;
+
+SELECT mt.item_name, mt.category,
+		COUNT(od.order_id) as No_of_ordered
+FROM restaurant_db.order_details od
+LEFT JOIN restaurant_db.menu_items mt
+ON mt.menu_item_id= od.item_id
+GROUP BY mt.item_name, mt.category
+ORDER BY COUNT(od.order_id) DESC;
+
+-- 3.What were the top 5 orders that spent the most money?
+SELECT  od.order_id, SUM(mt.price)
+FROM restaurant_db.menu_items mt
+LEFT JOIN restaurant_db.order_details od
+ON mt.menu_item_id= od.item_id
+GROUP BY od.order_id
+ORDER BY SUM(mt.price) DESC
+LIMIT 5; 
+
+
+-- 4.View the details of the highest spend order. What insights can you gather from the  results found.
+SELECT  *
+FROM restaurant_db.menu_items mt
+LEFT JOIN restaurant_db.order_details od
+ON mt.menu_item_id= od.item_id
+WHERE order_id = 440;
+
+SELECT category, COUNT(item_id) AS num_items
+FROM restaurant_db.menu_items mt
+LEFT JOIN restaurant_db.order_details od
+ON mt.menu_item_id= od.item_id
+WHERE order_id = 440
+GROUP BY category; 
+
+
+-- 5. View the details of the top 5 highest spend orders.What insights can you gather from the results found 
+SELECT od.order_id , mt.category, COUNT(od.item_id) AS num_items
+FROM restaurant_db.menu_items mt
+LEFT JOIN restaurant_db.order_details od
+ON mt.menu_item_id= od.item_id
+WHERE od.order_id in ( 440, 2075, 1957, 330 ,2675)
+GROUP BY mt.category, od.order_id ; 
+
 
