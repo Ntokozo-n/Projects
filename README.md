@@ -1,4 +1,11 @@
+Data Cleaning on layoffs csv
 
+See below raw data that cleaning was applied on.
+[layoffs.zip](https://github.com/user-attachments/files/18813998/layoffs.zip)
+
+
+___________________________________________________________________________________________________________________
+Exploratory Data for restaurant orders
 
 
 [RESTAURANT_ORDERS _SQL PROJECT.docx](https://github.com/user-attachments/files/18812005/RESTAURANT_ORDERS._SQL.PROJECT.docx)
